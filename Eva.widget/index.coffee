@@ -1,11 +1,11 @@
 Version = "0.X14.4a"
 config = {
     Magnification: 1.0
-    BatteryAlertLevel: 20
+    BatteryAlertLevel: 10
     CPUAlertLevel: 90
     Opacity: 0.5
-    Voice: false
-    colourIdle: "rgba(10,10,10,1)"
+    Voice: true
+    colourIdle: "rgba(77, 138, 25, 0.75)"
     colourWarn: "rgba(256,0,0,1)"
     colourDNDS: "rgba(256,96,0,1)"
     colourWhit: "rgba(256,256,256,1)"
@@ -304,42 +304,44 @@ style: """
         transform:rotate(-90deg)
         font-style: Black
         z-index:99999
-    .iTunesCover
-        position: fixed;
-        left:410em; bottom:500em;
-        width:200em; height:200em;
-        background-color: #{config.colourIdle};
-        z-index:99999
-    .iTunesCoverMask
-        color:white
-        position: fixed;
-        margin-left:5em; margin-top:5em;
-        width: 190em; height: 190em;
-        background-color: rgba(10,10,10,0.75);
-    .iTunesRatingBlock
-        width:33em;height:10em;
-        margin-left:1em;margin-right:1em;
-        background-color: rgba(256,256,256,0.5);
-        display:inline-block;
+ """
+    #.iTunesCover
+     #   position: fixed;
+      #  left:410em; bottom:500em;
+     #   width:200em; height:200em;
+     #   background-color: #{config.colourIdle};
+      #  z-index:99999
+   #.iTunesCoverMask
+     #   color:white
+     #  position: fixed;
+     #   margin-left:5em; margin-top:5em;
+     #   width: 190em; height: 190em;
+     #   background-color: rgba(10,10,10,0.75);
+   # .iTunesRatingBlock
+     #   width:33em;height:10em;
+     #   margin-left:1em;margin-right:1em;
+     #   background-color: rgba(256,256,256,0.5);
+     #   display:inline-block;
 
-"""
 
-render: -> """
+render: -> 
+ # <div class="left" style="float:left">
+    #   <div class="iTunesCover CoverCell"> 
+    #        <div class="iTunesCoverMask">
+     #           <div style="font-size:30em;font-family:IMPACT">SEELE</div>
+    #           <div style="font-size:70em;font-family:IMPACT" id="iTunesTrack">00</div>
+    #            <div style="font-size:30em;font-family:IMPACT">SOUND</div>
+   #             <div style="font-size:30em;font-family:IMPACT">ONLY</div>
+     #       </div>
+    #        <div style="width:190em;height:190em;margin-top:5em" id="iTunesCoverImg"></div>
+     #       <div class="iTunesRatingBlock" id="rate1"></div>
+     #       <div class="iTunesRatingBlock" id="rate2"></div>
+     #       <div class="iTunesRatingBlock" id="rate3"></div>
+      #      <div class="iTunesRatingBlock" id="rate4"></div>
+      #      <div class="iTunesRatingBlock" id="rate5"></div>
+      #  </div>
+        """
     <div class="left" style="float:left">
-        <div class="iTunesCover CoverCell">
-            <div class="iTunesCoverMask">
-                <div style="font-size:30em;font-family:IMPACT">SEELE</div>
-                <div style="font-size:70em;font-family:IMPACT" id="iTunesTrack">00</div>
-                <div style="font-size:30em;font-family:IMPACT">SOUND</div>
-                <div style="font-size:30em;font-family:IMPACT">ONLY</div>
-            </div>
-            <div style="width:190em;height:190em;margin-top:5em" id="iTunesCoverImg"></div>
-            <div class="iTunesRatingBlock" id="rate1"></div>
-            <div class="iTunesRatingBlock" id="rate2"></div>
-            <div class="iTunesRatingBlock" id="rate3"></div>
-            <div class="iTunesRatingBlock" id="rate4"></div>
-            <div class="iTunesRatingBlock" id="rate5"></div>
-        </div>
         <div class="nav a2 CoverCell" target="_blank" href="#" id="44"><s></s><b1></b1></div>
         <div class="nav a2 CoverCell" target="_blank" href="#" id="45"><s1></s1><b></b></div>
         <div class="nav a0" target="_blank" href="#" id="46"><s></s><b></b>
@@ -774,11 +776,11 @@ afterRender: (domEl) ->
 
 
 
-    $(domEl).on 'click', '.iTunesPre', => @run "osascript -e 'tell application \"iTunes\" to previous track'"
-    $(domEl).on 'click', '.iTunesNext', => @run "osascript -e 'tell application \"iTunes\" to next track'"
-    $(domEl).on 'click', '.iTunesPause', => @run "osascript -e 'tell application \"iTunes\" to pause'"
-    $(domEl).on 'click', '.iTunesPlay', => @run "osascript -e 'tell application \"iTunes\" to play'"
-    $(domEl).on 'click', '#TrashCell', => @run "osascript -e 'tell application \"Finder\" to empty'"
+    $(domEl).on 'click', '.iTunesPre', => @run "osascript -e 'tell application \"Spotify\" to previous track'"
+    $(domEl).on 'click', '.iTunesNext', => @run "osascript -e 'tell application \"Spotify\" to next track'"
+    $(domEl).on 'click', '.iTunesPause', => @run "osascript -e 'tell application \"Spotify\" to pause'"
+    $(domEl).on 'click', '.iTunesPlay', => @run "osascript -e 'tell application \"Spotify\" to play'"
+    $(domEl).on 'click', '#TrashCell', => @run "osascript -e 'tell application \"Spotify\" to empty'"
 #   Command to open up mounted volumes
     $(domEl).on 'click', '#66', => @run "ls /Volumes/ | awk -F'\t' '{ print $0}' > tmp.txt;i=1; cat tmp.txt | sed -e 's/[ ]/\\ /g ' | while read line; do if [ \"$i\" -eq 1 ]; then open /Volumes/\"${line}\"; fi; let i=i+1; done; rm tmp.txt
 "
@@ -1035,10 +1037,10 @@ update: (output, domEl) ->
             $(domEl).find("#45").css("visibility","hidden")
             $(domEl).find("#48").css("visibility","hidden")
         else
-            $(domEl).find(".CoverCell").css("visibility","visible")
-            $(domEl).find("#44").css("visibility","visible")
-            $(domEl).find("#45").css("visibility","visible")
-            $(domEl).find("#48").css("visibility","visible")
+            $(domEl).find(".CoverCell").css("visibility","hidden") # changed to hidded because didnt want to see cover
+            $(domEl).find("#44").css("visibility","hidden")
+            $(domEl).find("#45").css("visibility","hidden")
+            $(domEl).find("#48").css("visibility","hidden")
         window.iTunesvalues[3] = "0" + window.iTunesvalues[3] if window.iTunesvalues[3] < 10
         $(domEl).find('#iTunesTrack').text("#{iTunesvalues[3]}")
         $(domEl).find('#iTunesArtist').text("#{iTunesvalues[1]}")
@@ -1105,7 +1107,7 @@ update: (output, domEl) ->
             Bwarning -= 1
     # Swarning is for Memory usage. Warning is triggered when reaches above
     # NORMAL level(1)
-    if (MemUsage.indexOf("1") <= -1)
+    if (MemUsage.indexOf("1") >= 2) # previous <= -1
         if (Swarning == 0)
             if config.Voice
                 @run voiceCommand + voiceMEMzuHohe
